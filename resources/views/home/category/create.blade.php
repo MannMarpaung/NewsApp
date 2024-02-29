@@ -13,7 +13,7 @@
                 @csrf
                 {{-- jenis method yang digunakan --}}
                 @method('POST')
-{{-- 3 --}}
+{{-- 4 --}}
                 <div class="col-12">
                     <label for="inputName" class="form-label">Category Name</label>
                     <input type="text" class="form-control" id="inputName" name="name" value="{{ old('name') }}">
