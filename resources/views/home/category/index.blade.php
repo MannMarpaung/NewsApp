@@ -27,23 +27,53 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                {{-- Menampilkan data dengan perulangan forelse dari category model --}}
+
+                                @forelse ($category as $row)
+                                    <tr>
+                                        {{-- Numbering menggunakan loop->iteration --}}
+                                        <td>{{ $loop->iteration }}</td>
+                                        {{-- Menampilkan data name --}}
+                                        <td>{{ $row->name }}</td>
+                                        {{-- Menampilkan data slug --}}
+                                        <td>{{ $row->slug }}</td>
+
+                                        {{-- Menampilkan data image --}}
+                                        {{-- Fungsi accessor image pada model category adalah untuk menampilkan image tanpa harus menulis path secara manual --}}
+                                        <td>
+                                            <img src="{{ $row->image }}" alt="image" width="100px">
+                                        </td>
+                                        <td class="d-flex justify-content-evenly">
+                                            {{-- Show using Modal with id {{ row->id }} --}}
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#basicModal{{ $row->id }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+
+                                            @include('home.includes.modal-show')
+                                            
+                                            {{-- button edit with route category.edit {{ row->id }} --}}
+                                            <a href="{{ route('category.edit', $row->id) }}" class="btn btn-warning">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            {{-- Button delete with route category.destroy {{ row->id }} --}}
+                                            <form action="{{ route('category.destroy', $row->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger d-inline">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+
+
+                                            <!-- End Basic Modal-->
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <p>Data Masih Kosong</p>
+                                @endforelse
+
                             </tbody>
                         </table>
                     </div>
