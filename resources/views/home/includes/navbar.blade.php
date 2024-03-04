@@ -169,7 +169,7 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                     data-bs-toggle="dropdown">
-                    <img src="{{ asset('admin/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe" alt="Profile" class="rounded-circle">
                     <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
                 </a><!-- End Profile Iamge Icon -->
 
@@ -224,5 +224,5 @@
 
         </ul>
     </nav><!-- End Icons Navigation -->
-    
+
 </header>
