@@ -7,10 +7,15 @@
                 Welcome {{ Auth::user()->name }}
             </h1>
 
-            <form action="{{ route('logout') }}" method="post">
-                @csrf
-                <button class="btn btn-danger">Logout</button>
-            </form>
+            <hr>
+
+            <h3 class="text-center">Detail Account</h3>
+
+            <ul class="list-group">
+                <li class="list-group-item">Name Account = <strong>{{ Auth::user()->name }}</strong></li>
+                <li class="list-group-item">E-Mail Account = <strong>{{ Auth::user()->email }}</strong></li>
+                <li class="list-group-item">Role Account = <strong>{{ Auth::user()->role }}</strong></li>
+            </ul>
         </div>
     </div>
 @endsection

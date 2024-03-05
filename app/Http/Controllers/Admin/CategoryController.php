@@ -20,7 +20,7 @@ class CategoryController extends Controller
         // Title halaman Index
         $title = 'Category - Index';
         // Mengurutkan data berdasarkan data terbaru
-        $category = Category::latest()->get();
+        $category = Category::latest()->paginate(5);
         return view('home.category.index', compact('category', 'title'));
     }
 
@@ -58,16 +58,21 @@ class CategoryController extends Controller
         // fungsi getClientOriginalName itu untuk menggunakan nama asli dari image
         $image->storeAs('public/category', $image->hashName());
 
-        // Melakukan save to database
-        Category::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'image' => $image->hashName()
-        ]);
-
-        // Melakukan return redirect
-        return redirect()->route('category.index')
-            ->with('success', 'Category Berhasil Ditambahkan');
+        if (
+            // Melakukan save to database
+            Category::create([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'image' => $image->hashName()
+            ])
+        ) {
+            // Melakukan return redirect
+            return redirect()->route('category.index')
+                ->with('success', 'Category Successfully Created');
+        } else {
+            return redirect()->route('category.create')
+                ->with('errors', 'Category Failed to Created');
+        }
     }
 
     /**
@@ -96,7 +101,8 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
 
-        return view('home.category.edit', compact('category', 'title'));
+        return view('home.category.edit', compact('category', 'title'))
+        ;
     }
 
     /**
@@ -121,13 +127,12 @@ class CategoryController extends Controller
         if ($request->file('image')  == '') {
             $category->update([
                 'name' => $request->name,
-                'slug' => Str::slug($request->name),         
+                'slug' => Str::slug($request->name),
             ]);
-            return redirect()->route('category.index');
-        }else {
+        } else {
             // jika gambarnya diupdate
             // hapus image lama
-            Storage::disk('local')->delete('public/category/' .basename($category->image));
+            Storage::disk('local')->delete('public/category/' . basename($category->image));
 
             // upload image baru
             $image = $request->file('image');
@@ -140,8 +145,10 @@ class CategoryController extends Controller
                 'image' => $image->hashName()
             ]);
 
-            return redirect()->route('category.index');
         }
+        
+        return redirect()->route('category.index')
+        ->with('success', 'Category Successfully Updated');
     }
 
     /**
@@ -157,11 +164,13 @@ class CategoryController extends Controller
 
         // delete Image
         // basename itu untuk mengambil nama file
-        Storage::disk('local')->delete('public/category/' .basename($category->image));
+        Storage::disk('local')->delete('public/category/' . basename($category->image));
 
         // delete data by id
         $category->delete();
 
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')
+            ->with('success', 'Category Successfully Deleted');
+        
     }
 }

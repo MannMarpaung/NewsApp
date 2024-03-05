@@ -12,6 +12,13 @@
                 </a>
             </div>
 
+            {{-- alert success --}}
+            @if (session('success'))
+                <div class="alert alert-success mt-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <div class="container mt-3">
                 <div class="card">
                     <div class="card-body">
@@ -51,7 +58,7 @@
                                             </button>
 
                                             @include('home.includes.modal-show')
-                                            
+
                                             {{-- button edit with route category.edit {{ row->id }} --}}
                                             <a href="{{ route('category.edit', $row->id) }}" class="btn btn-warning">
                                                 <i class="bi bi-pencil-square"></i>
@@ -76,6 +83,9 @@
 
                             </tbody>
                         </table>
+
+                        {{-- paginate --}}
+                        {{ $category->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
             </div>
