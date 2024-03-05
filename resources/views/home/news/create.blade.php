@@ -38,7 +38,7 @@
                 </div> 
 
                 {{-- field untuk konten menggunakan CKeditor untuk menampilkan konten --}}
-                {{-- name berfungsi untuk mengrimkan data ke controller  --}}
+                {{-- name berfungsi untuk mengrimkan data ke controller a --}}
                 <div class="mb-2">
                     <label class="col-sm-2 col-form-label">Content News</label>
                     <textarea id="editor" name="content">This is some sample content.</textarea>
