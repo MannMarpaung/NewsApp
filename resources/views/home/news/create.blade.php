@@ -35,13 +35,20 @@
                             @endforeach
                         </select>
                     </div>
-                </div> 
+                </div>
 
                 {{-- field untuk konten menggunakan CKeditor untuk menampilkan konten --}}
                 {{-- name berfungsi untuk mengrimkan data ke controller --}}
                 <div class="mb-2">
                     <label class="col-sm-2 col-form-label">Content News</label>
                     <textarea id="editor" name="content">This is some sample content.</textarea>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-plus"></i>
+                        Create News
+                    </button>
                 </div>
 
                 <script>
