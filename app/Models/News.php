@@ -11,7 +11,7 @@ class News extends Model
     use HasFactory;
 
     protected $fillable = [
-        'categoty_id',
+        'category_id',
         'title',
         'image',
         'slug',
@@ -23,9 +23,9 @@ class News extends Model
         //one to many relationship using belongTo
         return $this->belongsTo(Category::class);
     }
-    
+    // p
     //Accessor Image News
-    public function image():Attribute {
+    public function image() : Attribute {
         return Attribute::make(
             get: fn($value) => asset('/storage/news/' . $value)
         );

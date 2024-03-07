@@ -5,6 +5,16 @@
         <div class="card p-4">
             <h3>News Create</h3>
 
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('news.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
@@ -13,7 +23,7 @@
                 {{-- name berfungsi untuk mengirimkan data ke controller --}}
                 {{-- old berfungsi untuk menampilkan kembali inputan user --}}
                 <div class="mb-2">
-                    <label for="inputTitle" class="form-label">News Name</label>
+                    <label for="inputTitle" class="form-label">News Title</label>
                     <input type="text" class="form-control" id="inputTitle" name="title" value="{{ old('title') }}">
                 </div>
 
@@ -26,9 +36,9 @@
                 </div>
 
                 <div class="mb-2">
-                    <label class="col-sm-2 col-form-label">Select</label>
+                    <label class="col-sm-2 col-form-label">Category News</label>
                     <div class="col-sm-10">
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" aria-label="Default select example" name="category_id">
                             <option selected>-=-=- Choose Category -=-=-</option>
                             @foreach ($category as $row)
                                 <option value="{{ $row->id }}">{{ $row->name }}</option>

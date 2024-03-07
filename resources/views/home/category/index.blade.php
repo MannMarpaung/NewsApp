@@ -39,7 +39,7 @@
                                 @forelse ($category as $row)
                                     <tr>
                                         {{-- Numbering menggunakan loop->iteration --}}
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td></td>
                                         {{-- Menampilkan data name --}}
                                         <td>{{ $row->name }}</td>
                                         {{-- Menampilkan data slug --}}

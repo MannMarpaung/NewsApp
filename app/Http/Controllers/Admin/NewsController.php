@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\News;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,8 +20,12 @@ class NewsController extends Controller
         // title halaman index
         $title = 'News - Index';
 
-        // Compact berfungsi mengirim data ke view
-        return view('home.news.index', compact('title'));
+        // get data terbaru dari table news/ dari model News
+        $news = News::latest()->paginate(5);
+        $category = Category::all();
+
+        // Compact berfungsi mengirim data ke view yang diambil dari variable di atas
+        return view('home.news.index', compact('title', 'news', 'category'));
     }
 
     /**
@@ -54,6 +60,23 @@ class NewsController extends Controller
             'content' => 'required',
             'category_id' => 'required'
         ]);
+
+        // upload image
+        $image = $request->file('image');
+        // fungsi untuk menyimpan image ke dalam folder public/news
+        // fungsi hashName() berfungsi untuk memberikan nama acak pada image
+        $image->storeAs('public/news', $image->hashName());
+
+        // create data ke dalam table news
+        News::create([
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'slug' => Str::slug($request->title, '-'),
+            'image' => $image->hashName(),
+            'content' => $request->content
+        ]);
+
+        return redirect()->route('news.index');
     }
 
     /**
