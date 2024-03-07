@@ -23,7 +23,7 @@ class News extends Model
         //one to many relationship using belongTo
         return $this->belongsTo(Category::class);
     }
-    // 
+
     //Accessor Image News
     public function image() : Attribute {
         return Attribute::make(
