@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    Route::get('/profile', [App\Http\Controllers\Profile\ProfileController::class]);
+
     // Route for admin
     Route::middleware(['auth', 'admin'])->group(function () {
 
@@ -42,7 +44,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('news', NewsController::class);
         
         // Route for Category using Resource
-        Route::resource('category', CategoryController::class);
+        // Fungsi except('show') itu untuk menghilangkan function karena kita tidak menggunakan show
+        // Fungsi only('index') itu untuk menampilkan fungsi index saja kerana kita hanya menggunakan index
+        Route::resource('category', CategoryController::class)->except('show');
 
     });
 
