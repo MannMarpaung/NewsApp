@@ -34,28 +34,33 @@
                         </thead>
                         <tbody>
                             @forelse ($news as $row)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $row->title }}</td>
-                                <td>{{ $row->category->name }}</td>
-                                <td>
-                                    <img src="{{ $row->image }}" alt="image" width="150" class="rounded">
-                                </td>
-                                <td>
-                                    <img src="{{ $row->category->image }}" alt="image" width="150" class="rounded">
-                                </td>
-                                <td>
-                                    <button class="btn btn-info">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                    <button class="btn btn-warning">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button class="btn btn-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $row->title }}</td>
+                                    <td>{{ $row->category->name }}</td>
+                                    <td>
+                                        <img src="{{ $row->image }}" alt="image" width="150" class="rounded">
+                                    </td>
+                                    <td>
+                                        <img src="{{ $row->category->image }}" alt="image" width="150"
+                                            class="rounded">
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('news.show', $row->id) }}" class="btn btn-info">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="{{ route('news.edit', $row->id) }}" class="btn btn-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('news.destroy', $row->id) }}" method="post" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger" type="submit">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             @empty
                                 <p class="text-center">Data Masih Kosong</p>
                             @endforelse
