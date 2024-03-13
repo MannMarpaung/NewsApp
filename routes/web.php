@@ -27,7 +27,7 @@ Auth::routes();
 // Route::match(['get', 'post'], '/register', function () {
 //     return redirect('/login');
 // });
-// 
+// p
 
 
 // Route Middleware
