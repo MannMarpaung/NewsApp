@@ -39,7 +39,7 @@ class ProfileController extends Controller
                 // get uset login
                 $user = auth()->user();
 
-                // update password
+                // update password p
                 $user->password = Hash::make($request->password);
                 $user->save();
 
