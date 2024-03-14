@@ -27,7 +27,7 @@ Auth::routes();
 // Route::match(['get', 'post'], '/register', function () {
 //     return redirect('/login');
 // });
-// p
+// 
 
 
 // Route Middleware
@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::get('/profile', [App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/changepassword', [App\Http\Controllers\Profile\ProfileController::class, 'changePassword'])->name('profile.changepassword');
+    Route::put('/updatepassword', [App\Http\Controllers\Profile\ProfileController::class, 'updatePassword'])->name('profile.updatepassword');
 
     // Route for admin
     Route::middleware(['auth', 'admin'])->group(function () {

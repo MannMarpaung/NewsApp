@@ -19,7 +19,7 @@ class NewsController extends Controller
     public function index()
     {
         // title halaman index
-        $title = 'News - Index';
+        $title = 'News';
 
         // get data terbaru dari table news/ dari model News
         $news = News::latest()->paginate(5);
