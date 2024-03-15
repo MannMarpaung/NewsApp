@@ -16,9 +16,7 @@ use App\Http\Controllers\Admin\CategoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index']);
 
 Auth::routes();
 
@@ -38,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('profile.index');
     Route::get('/changepassword', [App\Http\Controllers\Profile\ProfileController::class, 'changePassword'])->name('profile.changepassword');
     Route::put('/updatepassword', [App\Http\Controllers\Profile\ProfileController::class, 'updatePassword'])->name('profile.updatepassword');
+    Route::get('/createprofile', [App\Http\Controllers\Profile\ProfileController::class, 'createProfile'])->name('createProfile');
+    Route::post('/storeprofile', [App\Http\Controllers\Profile\ProfileController::class, 'storeProfile'])->name('storeProfile');
+    Route::get('/editprofile', [App\Http\Controllers\Profile\ProfileController::class, 'editProfile'])->name('editProfile');
+    Route::put('/updateprofile', [App\Http\Controllers\Profile\ProfileController::class, 'updateProfile'])->name('updateProfile');
 
     // Route for admin
     Route::middleware(['auth', 'admin'])->group(function () {
@@ -49,6 +51,13 @@ Route::middleware('auth')->group(function () {
         // Fungsi except('show') itu untuk menghilangkan function karena kita tidak menggunakan show
         // Fungsi only('index') itu untuk menampilkan fungsi index saja kerana kita hanya menggunakan index
         Route::resource('category', CategoryController::class)->except('show');
+
+
+        // Get all user
+        Route::get('/alluser', [\App\Http\Controllers\Profile\ProfileController::class, 'allUser'])->name('allUser');
+
+        // Reser password User
+        Route::put('/reset-password/{id}', [App\Http\Controllers\Profile\ProfileController::class, 'resetPassword'])->name('resetPassword');
 
     });
 

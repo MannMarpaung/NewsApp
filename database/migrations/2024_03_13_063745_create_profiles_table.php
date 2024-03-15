@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_d');
+            $table->foreignId('user_id');
             $table->string('first_name')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

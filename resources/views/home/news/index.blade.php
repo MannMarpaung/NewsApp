@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="card p-4">
-            <h3>Ini Halaman Index News</h3>
+            <h3>News</h3>
             {{-- alert success --}}
             @if (session('success'))
                 <div class="alert alert-success mt-4">
@@ -52,7 +52,8 @@
                                         <a href="{{ route('news.edit', $row->id) }}" class="btn btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <form action="{{ route('news.destroy', $row->id) }}" method="post" class="d-inline">
+                                        <form action="{{ route('news.destroy', $row->id) }}" method="post"
+                                            class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger" type="submit">
@@ -66,6 +67,8 @@
                             @endforelse
                         </tbody>
                     </table>
+                    {{-- paginate --}}
+                    {{ $news->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
