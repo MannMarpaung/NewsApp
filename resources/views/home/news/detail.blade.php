@@ -18,7 +18,7 @@
                             culpa neque repellat sint, accusamus beatae, cumque autem tempore quisquam quam eligendi harum
                             debitis.</p>
                     </div>
-                    <!-- End Single Post Content -->
+                    <!-- End Single Post Content 2 -->
                 </div>
             </div>
         </div>
