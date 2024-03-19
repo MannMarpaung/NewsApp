@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -13,6 +14,14 @@ class FrontendController extends Controller
         // get data category
         $category = Category::latest()->get();
 
-        return view('frontend.index' , compact('category'));
+        // slider/carausel news latest
+        $sliderNews = News::latest()->limit(3)->get();
+
+
+        return view('frontend.news.index' , compact('category', 'sliderNews'));
+    }
+
+    public function detailNews($slug) {
+        
     }
 }
