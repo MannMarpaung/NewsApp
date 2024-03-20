@@ -55,7 +55,7 @@
                             @endforeach
                         </ul>
 
-                        {{-- 2 --}}
+                        {{-- 3 --}}
                         <div class="tab-content" id="pills-tabContent">
 
                             @foreach ($category as $index => $row)
