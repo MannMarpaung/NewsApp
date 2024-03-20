@@ -10,7 +10,7 @@
                         <div class="swiper-wrapper">
                             @foreach ($sliderNews as $row)
                                 <div class="swiper-slide">
-                                    <a href="single-post.html" class="img-bg d-flex align-items-end"
+                                    <a href="{{ route('detailNews', $row->slug) }}" class="img-bg d-flex align-items-end"
                                         style="background-image: url('{{ $row->image }}');">
                                         <div class="img-bg-inner">
                                             <h2>{{ $row->title }}</h2>
@@ -44,7 +44,7 @@
 
                 <div class="section-header d-flex justify-content-between align-items-center mb-5">
                     <h2>{{ $row->name }}</h2>
-                    <div><a href="#" class="more">{{ $row->name }}</a></div>
+                    <div><a href="{{ route('detailCategory', $row->slug) }}" class="more">SEE ALL {{ $row->name }}</a></div>
                 </div>
 
                 <div class="row">
@@ -59,7 +59,7 @@
 
                         @foreach ($latestNews as $news)
                             <div class="d-lg-flex post-entry-2">
-                                <a href="#" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
+                                <a href="{{ route('detailNews', $news->slug) }}" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
                                     <img src="{{ $news->image }}" alt="" class="img-fluid">
                                 </a>
                                 <div>
@@ -67,10 +67,10 @@
                                             class="mx-1">&bullet;</span>
                                         <span>{{ $row->created_at->diffForHumans() }}</span>
                                     </div>
-                                    <h3><a href="#">{{ $news->title }}</a></h3>
+                                    <h3><a href="{{ route('detailNews', $news->slug) }}">{{ $news->title }}</a></h3>
                                     <p>{!! Str::limit($news->content, 500) !!}</p>
                                     <div class="d-flex align-items-center author">
-                                        <div class="photo"><img src="{{ Auth::user()->profile->image }}" alt=""
+                                        <div class="photo"><img src="http://127.0.0.1:8000/storage/profile/By%20Cordova.png" alt=""
                                                 class="img-fluid"></div>
                                         <div class="name">
                                             <h3 class="m-0 p-0">Admin</h3>
@@ -87,12 +87,12 @@
                             <div class="col-lg-4">
                                 @foreach ($row->news->random(1) as $news)
                                     <div class="post-entry-1 border-bottom">
-                                        <a href="single-post.html"><img src="{{ $news->image }}" alt=""
+                                        <a href="{{ route('detailNews', $news->slug) }}"><img src="{{ $news->image }}" alt=""
                                                 class="img-fluid"></a>
                                         <div class="post-meta"><span class="date">{{ $row->name }}</span> <span
                                                 class="mx-1">&bullet;</span>
                                             <span>{{ $news->created_at->diffForHumans() }}</span></div>
-                                        <h2 class="mb-2"><a href="single-post.html">{{ $news->title }}</a></h2>
+                                        <h2 class="mb-2"><a href="{{ route('detailNews', $news->slug) }}">{{ $news->title }}</a></h2>
                                         <span class="author mb-3 d-block">Admin</span>
                                         <p class="mb-4 d-block">{!! Str::limit($news->content, 100) !!}</p>
                                     </div>
@@ -103,7 +103,7 @@
                                         <div class="post-meta"><span class="date">{{ $row->name }}</span> <span
                                                 class="mx-1">&bullet;</span>
                                             <span>{{ $news->created_at->diffForHumans() }}</span></div>
-                                        <h2 class="mb-2"><a href="single-post.html">{{ $news->title }}</a>
+                                        <h2 class="mb-2"><a href="{{ route('detailNews', $news->slug) }}">{{ $news->title }}</a>
                                         </h2>
                                         <span class="author mb-3 d-block">Admin</span>
                                     </div>
@@ -114,12 +114,12 @@
                             @foreach ($row->news->random(1) as $news)
                                 <div class="col-lg-8">
                                     <div class="post-entry-1">
-                                        <a href="#"><img src="{{ $news->image }}" alt=""
+                                        <a href="{{ route('detailNews', $news->slug) }}"><img src="{{ $news->image }}" alt=""
                                                 class="img-fluid"></a>
                                         <div class="post-meta"><span class="date">{{ $row->name }}</span> <span
                                                 class="mx-1">&bullet;</span>
                                             <span>{{ $news->created_at->diffForHumans() }}</span></div>
-                                        <h2 class="mb-2"><a href="#">{{ $news->title }}</a></h2>
+                                        <h2 class="mb-2"><a href="{{ route('detailNews', $news->slug) }}">{{ $news->title }}</a></h2>
                                         <span class="author mb-3 d-block">Admin</span>
                                         <p class="mb-4 d-block">{!! Str::limit($news->content, 200) !!}</p>
                                     </div>
@@ -146,7 +146,7 @@
                                     {{-- format ('d F Y') berfungsi menampilkan waktu dalam bentuk seperti "12 July 2021" --}}
                                     <span>{{ $news->created_at->diffForHumans() }}</span>
                                 </div>
-                                <h2 class="mb-2"><a href="single-post.html">
+                                <h2 class="mb-2"><a href="{{ route('detailNews', $news->slug) }}">
                                         {{-- limit karakter --}}
                                         {{ Str::limit($news->title, 50) }}</a></h2>
                                 <span class="author mb-3 d-block">Admin</span>
