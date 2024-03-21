@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes3
+| API Routes4
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
