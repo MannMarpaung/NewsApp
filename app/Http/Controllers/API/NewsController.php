@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    //3
+    //4
 
     public function index() {
         try {
