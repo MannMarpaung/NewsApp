@@ -150,7 +150,7 @@ class AuthController extends Controller
                 'error' => $error
             ], 'Authentication Failed', 500);
         }
-// 2
+// 3
     }
 
     public function allUsers() {
