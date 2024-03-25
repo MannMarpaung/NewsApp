@@ -4,36 +4,37 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class NewsController extends Controller
+class CategoryController extends Controller
 {
-
-    public function index() {
+    public function index()
+    {
+        // get all Category
         try {
-            $news = News::latest()->get();
+            $category = Category::latest()->get();
             return ResponseFormatter::success(
-                $news,
-                'Data list of news'
+                $category,
+                'Data Category Berhasil Diambil'
             );
         } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
-                'error' => $error,
+                'error' => $error
             ], 'Authentication Failed', 500);
         }
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         try {
             // get data by id
-            $news = News::findOrFail($id);
+            $category = Category::findOrFail($id);
             return ResponseFormatter::success(
-                $news,
-                'Data news by id'
+                $category,
+                'Data category by id'
             );
-            
         } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
