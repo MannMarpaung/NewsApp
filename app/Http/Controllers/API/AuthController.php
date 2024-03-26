@@ -158,4 +158,4 @@ class AuthController extends Controller
         return ResponseFormatter::success($users, 'Data user berhasil diambil');
     }
 }
-// 2
+// 3
