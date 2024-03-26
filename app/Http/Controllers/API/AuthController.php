@@ -115,15 +115,15 @@ class AuthController extends Controller
 
     public function updatePassword(Request $request){
         try {
-            $this->request($request,[
-            'old-password' => 'required',
+            $this->validate($request,[
+            'old_password' => 'required',
             'new_password' => 'required|string|min:6',
             'confirm_password' => 'required|string|min:6'
             ]);
 
             // get data user
             $user = Auth::user();
-            if(!Hash::check($request->old_pssword, $user->password)){
+            if(!Hash::check($request->old_password, $user->password)){
                 return ResponseFormatter::error([
                     'message' => 'Password lama tidak sesuai'
                 ], 'Authentication Failed', 401);
@@ -158,3 +158,4 @@ class AuthController extends Controller
         return ResponseFormatter::success($users, 'Data user berhasil diambil');
     }
 }
+// 1
