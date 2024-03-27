@@ -34,7 +34,7 @@ Route::post('/login', [\App\Http\Controllers\API\AuthController::class, 'login']
 Route::post('/register', [\App\Http\Controllers\API\AuthController::class, 'register']);
 Route::get('/allUsers', [\App\Http\Controllers\API\AuthController::class, 'allUsers']);
 
-// get data news 3
+// get data news 4
 Route::get('/allNews', [App\Http\Controllers\API\NewsController::class, 'index']);
 // get data news by id
 Route::get('/news/{id}', [App\Http\Controllers\API\NewsController::class, 'show']);
