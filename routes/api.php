@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
     Route::post('/updatePassword', [\App\Http\Controllers\API\AuthController::class, 'updatePassword']);
     Route::post('/storeProfile', [\App\Http\Controllers\API\AuthController::class, 'storeProfile']);
+    Route::post('/updateProfile', [\App\Http\Controllers\API\AuthController::class, 'updateProfile']);
 });
 
 // Route for Admin
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum', 'admin']], function() {
 Route::post('/login', [\App\Http\Controllers\API\AuthController::class, 'login']);
 Route::post('/register', [\App\Http\Controllers\API\AuthController::class, 'register']);
 Route::get('/allUsers', [\App\Http\Controllers\API\AuthController::class, 'allUsers']);
+Route::get('/allProfile', [\App\Http\Controllers\API\AuthController::class, 'allProfile']);
 
 // get data news
 Route::get('/allNews', [App\Http\Controllers\API\NewsController::class, 'index']);

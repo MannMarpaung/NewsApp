@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -194,47 +195,50 @@ class AuthController extends Controller
         }
     }
 
-    // public function updateProfile(Request $request)
-    // {
-    //     try {
-    //         // validate
-    //         $this->validate($request, [
-    //             'name' => 'required|string|max:225',
-    //             'first_name' => 'required|string|max:225',
-    //             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-    //         ]);
+    public function updateProfile(Request $request)
+    {
+        try {
+            // validate
+            $this->validate($request, [
+                'first_name' => 'required|string|max:225',
+                'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            ]);
 
-    //         // get data user
-    //         $user = Auth::user();
+            // get data user
+            $user = auth()->user();
 
-    //         if ($request->file('image') == '') {
-    //             $user->profile->update([
-    //                 'name' => $request->name,
-    //                 'first_name' => $request->first_name
-    //             ]);
-    //         } else {
-    //             // delete image
-    //             Storage::disk('local')->delete('public/profile' . basename($user->image));
+            if ($request->file('image') == '') {
+                $user->profile->update([
+                    'first_name' => $request->first_name
+                ]);
+            } else {
+                // delete image
+                Storage::disk('local')->delete('public/profile' . basename($user->image));
 
-    //             // upload image
-    //             $image = $request->file('image');
-    //             $image->storeAs('public/profile', $image->hashName());
+                // upload image
+                $image = $request->file('image');
+                $image->storeAs('public/profile', $image->hashName());
 
-    //             // update image
-    //             $user->profile->update([
-    //                 'name' => $request->name,
-    //                 'first_name' => $request->first_name,
-    //                 'image' => $image->hashName()
-    //             ]);
-    //         }
+                // update image
+                $user->profile->update([
+                    'first_name' => $request->first_name,
+                    'image' => $image->hashName()
+                ]);
+            }
 
-    //         return ResponseFormatter::success(['profile' => $user->profile], 'Data user berhasil diupdate');
+            return ResponseFormatter::success(['profile' => $user->profile], 'Data user berhasil diupdate');
 
-    //     } catch (\Exception $error) {
-    //         return ResponseFormatter::error([
-    //             'message' => 'Something went wrong',
-    //             'error' => $error
-    //         ], 'Authentication Failed', 500);
-    //     }
-    // }
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Authentication Failed', 500);
+        }
+    }
+
+    public function allProfile()
+    {
+        $profile = Profile::latest()->get();
+        return ResponseFormatter::success($profile, 'Data user berhasil diambil');
+    }
 }
