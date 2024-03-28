@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -47,7 +48,6 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user
             ], 'Authenticated', 200);
-
         } catch (Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
@@ -58,10 +58,11 @@ class AuthController extends Controller
 
 
 
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         try {
             // validate
-            $this->validate($request,[
+            $this->validate($request, [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:6',
@@ -69,7 +70,7 @@ class AuthController extends Controller
             ]);
 
             // cek kondisi password dan confirm password
-            if($request->password != $request->confirm_password) {
+            if ($request->password != $request->confirm_password) {
                 return ResponseFormatter::error([
                     'message' => 'Password not match'
                 ], 'Authentication Failed', 401);
@@ -94,8 +95,7 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user
             ], 'Authenticated', 200);
-
-        } catch(\Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something wemt wrong',
                 'error' => $error,
@@ -105,7 +105,8 @@ class AuthController extends Controller
 
 
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $token = $request->user()->currentAccessToken()->delete();
 
         return ResponseFormatter::success([
@@ -113,24 +114,25 @@ class AuthController extends Controller
         ], 'Token Revoked', 200);
     }
 
-    public function updatePassword(Request $request){
+    public function updatePassword(Request $request)
+    {
         try {
-            $this->validate($request,[
-            'old_password' => 'required',
-            'new_password' => 'required|string|min:6',
-            'confirm_password' => 'required|string|min:6'
+            $this->validate($request, [
+                'old_password' => 'required',
+                'new_password' => 'required|string|min:6',
+                'confirm_password' => 'required|string|min:6'
             ]);
 
             // get data user
             $user = Auth::user();
-            if(!Hash::check($request->old_password, $user->password)){
+            if (!Hash::check($request->old_password, $user->password)) {
                 return ResponseFormatter::error([
                     'message' => 'Password lama tidak sesuai'
                 ], 'Authentication Failed', 401);
             }
 
             // cek password baru dan konfirmasi password baru
-            if($request->new_password != $request->confirm_password) {
+            if ($request->new_password != $request->confirm_password) {
                 return ResponseFormatter::error([
                     'message' => 'Password tidak sesuai'
                 ], 'Authentication Failed', 401);
@@ -143,6 +145,46 @@ class AuthController extends Controller
             return ResponseFormatter::success([
                 'message' => 'Password berhasil diubah'
             ], 'Authenticated', 200);
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Authentication Failed', 500);
+        }
+    }
+
+    public function allUsers()
+    {
+        $users = User::where('role', 'user')->get();
+        return ResponseFormatter::success($users, 'Data user berhasil diambil');
+    }
+
+    public function storeProfile(Request $request)
+    {
+        try {
+            // validate
+            $this->validate($request, [
+                'first_name' => 'required|string|max:225',
+                'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+
+            // get data user
+            $user = auth()->user();
+
+            // upload image
+            $image = $request->file('image');
+            $image->storeAs('public/profile', $image->hashName());
+
+            // create profile
+            $user->profile()->create([
+                'first_name' => $request->first_name,
+                'image' => $image->hashName()
+            ]);
+
+            // get data profile
+            $profile = $user->profile;
+
+            return ResponseFormatter::success($profile, 'Data user berhasil diupdate');
 
         } catch (\Exception $error) {
             return ResponseFormatter::error([
@@ -150,11 +192,50 @@ class AuthController extends Controller
                 'error' => $error
             ], 'Authentication Failed', 500);
         }
-
     }
 
-    public function allUsers() {
-        $users = User::where('role', 'user')->get();
-        return ResponseFormatter::success($users, 'Data user berhasil diambil');
-    }
+    // public function updateProfile(Request $request)
+    // {
+    //     try {
+    //         // validate
+    //         $this->validate($request, [
+    //             'name' => 'required|string|max:225',
+    //             'first_name' => 'required|string|max:225',
+    //             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+    //         ]);
+
+    //         // get data user
+    //         $user = Auth::user();
+
+    //         if ($request->file('image') == '') {
+    //             $user->profile->update([
+    //                 'name' => $request->name,
+    //                 'first_name' => $request->first_name
+    //             ]);
+    //         } else {
+    //             // delete image
+    //             Storage::disk('local')->delete('public/profile' . basename($user->image));
+
+    //             // upload image
+    //             $image = $request->file('image');
+    //             $image->storeAs('public/profile', $image->hashName());
+
+    //             // update image
+    //             $user->profile->update([
+    //                 'name' => $request->name,
+    //                 'first_name' => $request->first_name,
+    //                 'image' => $image->hashName()
+    //             ]);
+    //         }
+
+    //         return ResponseFormatter::success(['profile' => $user->profile], 'Data user berhasil diupdate');
+
+    //     } catch (\Exception $error) {
+    //         return ResponseFormatter::error([
+    //             'message' => 'Something went wrong',
+    //             'error' => $error
+    //         ], 'Authentication Failed', 500);
+    //     }
+    // }
 }
+// 1
